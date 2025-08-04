@@ -4,6 +4,10 @@
 
 const randomEmailApi = "https://flynn.boolean.careers/exercises/api/random/mail"
  const randomEmail = []
+ //selezione dom
+ const ulEl = document. getElementById("email-list")
+ const buttonEl = document.querySelector("button")
+ const formEl = document.querySelector("form")
 
  for (let i = 0; i <10; i++) {
      axios.get(randomEmailApi)
@@ -15,5 +19,33 @@ const randomEmailApi = "https://flynn.boolean.careers/exercises/api/random/mail"
              console.log(email);
              randomEmail.push(email)
              console.log(randomEmail); 
+
+             //stampa in pagina la lista email
+             const li = document.createElement("li")
+             li.textContent = email
+             ulEl.appendChild(li)
              })
- }
+
+}
+            
+formEl.addEventListener('submit',(e) => {
+    e.preventDefault()
+
+    //pulisce la pagina
+    ulEl.innerHTML = ""
+
+     for (let i = 0; i <10; i++) {
+        fetch(randomEmailApi)
+            .then(response => response.json())
+            .then (data => {
+            const email = data.response
+            console.log(email);
+            console.log(randomEmail); 
+            
+            //stampa in pagina la lista email
+            const li = document.createElement("li")
+            li.textContent = email
+            ulEl.appendChild(li)
+                })
+    }             
+})
